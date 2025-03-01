@@ -1,0 +1,199 @@
+<!--./static/cool_thing.html-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ありがとうふきさん！</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #f1f1f1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            padding: 2rem;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #e1e1e1;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        
+        .key-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #252525;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .key-section p {
+            margin: 0.5rem 0;
+        }
+        
+        #keyInput {
+            padding: 0.5rem;
+            width: 70%;
+            background-color: #333;
+            border: 1px solid #444;
+            color: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        button:hover {
+            background-color: #666;
+        }
+        
+        .flag-display {
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .success {
+            color: #ffcc00;
+            font-size: 1.3rem;
+        }
+        
+        .success-result {
+            color: #4CAF50;
+            animation: pulse 1.5s infinite;
+            background-color: #1a3c1a;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        
+        .wrong-result {
+            color: #ff5555;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+    </style>
+    <script>
+        // Using more advanced obfuscation techniques
+        
+        // The verification data is split and encoded
+        const v1 = [42, 149, 227, 131]; // Encoded verification bytes
+        
+        // Encrypted flag components that will only be assembled when correct key is entered
+        const fc1 = [104, 116, 116, 112, 115, 58, 47, 47];
+        const fc2 = [119, 119, 119, 46, 121, 111, 117, 116, 117, 98, 101, 46, 99, 111, 109];
+        const fc3 = [47, 119, 97, 116, 99, 104, 63, 118, 61, 82, 52, 52, 76, 45, 69, 111, 118, 76, 56, 56];
+        
+        // This function calculates the hash in a way that doesn't reveal the expected result
+        function calculateHash(input) {
+            if (!input) return null;
+            
+            let h = 0;
+            for (let i = 0; i < input.length; i++) {
+                const c = input.charCodeAt(i);
+                h = ((h << 5) - h) + c;
+                h = h & h;
+            }
+            return Math.abs(h).toString(16).toUpperCase();
+        }
+        
+        // This processes the key and handles verification
+        function processKey() {
+            const keyInput = document.getElementById('keyInput').value;
+            
+            if (!keyInput) {
+                document.getElementById('flagResult').textContent = "Please enter a key";
+                return;
+            }
+            
+            // Calculate the hash of the input
+            const inputHash = calculateHash(keyInput);
+            
+            // Convert the verification data to a format we can check against
+            const targetHash = v1.map(n => n.toString(16).padStart(2, '0')).join('').toUpperCase();
+            
+            // Verify the key without directly revealing what we're checking for
+            if (inputHash === targetHash) {
+                // Only assemble the flag when the correct key is used
+                const flagUrl = assembleFlag();
+                
+                document.getElementById('flagResult').innerHTML = "<span class='success'>CONGRATS!! Your flag is:</span><br><a href='" + flagUrl + "' target='_blank'>" + flagUrl + "</a>";
+                document.getElementById('flagResult').classList.add('success-result');
+                document.getElementById('flagResult').classList.remove('wrong-result');
+            } else {
+                // For wrong inputs, just show their hash result
+                document.getElementById('flagResult').innerHTML = "SORRY :( but nice try.... hash generated: <br>" + inputHash.padStart(8, '0');
+                document.getElementById('flagResult').classList.remove('success-result');
+                document.getElementById('flagResult').classList.add('wrong-result');
+            }
+        }
+        
+        // This function dynamically assembles the flag only when needed
+        function assembleFlag() {
+            // Convert all components to characters and join them
+            return [...fc1, ...fc2, ...fc3].map(c => String.fromCharCode(c)).join('');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>ありがとうふきさん！</h1>
+        <div class="video-container">
+            <video controls>
+                <source src="./video/xd.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="key-section">
+            <p>Key???</p>
+            <input type="text" id="keyInput" placeholder="Enter key here">
+            <button onclick="processKey()">Submit</button>
+            <p id="flagResult" class="flag-display"></p>
+        </div>
+    </div>
+</body>
+</html>

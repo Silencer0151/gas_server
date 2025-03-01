@@ -1,0 +1,206 @@
+<!--./static/index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaseous Event Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!--You had a good idea viewing this, check app.js down below for a neat endpoint-->
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gaseous Event Tracker</h1>
+            <nav>
+                <button id="showForm" class="active">Submit Event</button>
+                <button id="showEvents">View Events</button>
+            </nav>
+        </header>
+
+        <main>
+            <section id="formSection" class="section">
+                <h2>Submit New Event</h2>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="gamerTag">Your Gamertag:</label>
+                        <input type="text" id="gamerTag" name="gamerTag" placeholder="Enter your handle" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventDate">Date & Time:</label>
+                        <input type="datetime-local" id="eventDate" name="eventDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventLocation">Location:</label>
+                        <input type="text" id="eventLocation" name="eventLocation" placeholder="e.g., Living room, Office, etc." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="duration">Duration (seconds):</label>
+                        <input type="number" id="duration" name="duration" min="0.1" step="0.1" placeholder="Enter duration in seconds" required>
+                    </div>
+                    
+                    <h3 class="section-title">Event Details</h3>
+                    
+                    <div class="form-group">
+                        <label>Smell Level:</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="smell1" name="smellLevel" value="None" required>
+                                <label for="smell1">None</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="smell2" name="smellLevel" value="Mild">
+                                <label for="smell2">Mild</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="smell3" name="smellLevel" value="Smelly">
+                                <label for="smell3">Smelly</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="smell4" name="smellLevel" value="Terrible">
+                                <label for="smell4">Terrible</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="smell5" name="smellLevel" value="Atomic">
+                                <label for="smell5">Atomic</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loudness">Loudness Level:</label>
+                        <div class="slider-container">
+                            <input type="range" id="loudness" name="loudness" min="1" max="10" value="5" class="slider" required>
+                            <div class="slider-labels">
+                                <span>Silent</span>
+                                <span>Whisper</span>
+                                <span>Audible</span>
+                                <span>Trumpet</span>
+                                <span>Thunderous</span>
+                            </div>
+                            <div class="value-display">
+                                <span id="loudnessValue">5</span>/10
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wetness">Wetness Factor:</label>
+                        <select id="wetness" name="wetness" required>
+                            <option value="" disabled selected>Select wetness level</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Slightly Moist">Slightly Moist</option>
+                            <option value="Concerning">Concerning</option>
+                            <option value="Check Your Pants">Check Your Pants</option>
+                        </select>
+                    </div>
+                    
+                    <h3 class="section-title">Collateral Damage</h3>
+                    
+                    <div class="form-group">
+                        <label>Who Was Present:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral1" name="collateral" value="Dog">
+                                <label for="collateral1">Dog</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral2" name="collateral" value="Cat">
+                                <label for="collateral2">Cat</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral3" name="collateral" value="Roommate">
+                                <label for="collateral3">Roommate</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral4" name="collateral" value="Significant Other">
+                                <label for="collateral4">Significant Other</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral5" name="collateral" value="Friend">
+                                <label for="collateral5">Friend</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral6" name="collateral" value="Coworker">
+                                <label for="collateral6">Coworker</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="collateral7" name="collateral" value="Stranger">
+                                <label for="collateral7">Stranger</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="victim">Who Suffered Most:</label>
+                        <input type="text" id="victim" name="victim" placeholder="Name of primary victim (optional)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Additional Notes:</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Any other relevant details..."></textarea>
+                    </div>
+                    
+                    <button type="submit">Submit Event</button>
+                </form>
+            </section>
+
+            <section id="eventsSection" class="section hidden">
+                <h2>Event Records</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="filterSmell">Smell Level:</label>
+                        <select id="filterSmell" name="filterSmell">
+                            <option value="">All</option>
+                            <option value="None">None</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Smelly">Smelly</option>
+                            <option value="Terrible">Terrible</option>
+                            <option value="Atomic">Atomic</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterWetness">Wetness:</label>
+                        <select id="filterWetness" name="filterWetness">
+                            <option value="">All</option>
+                            <option value="Dry">Dry</option>
+                            <option value="Slightly Moist">Slightly Moist</option>
+                            <option value="Concerning">Concerning</option>
+                            <option value="Check Your Pants">Check Your Pants</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterCollateral">Witness:</label>
+                        <select id="filterCollateral" name="filterCollateral">
+                            <option value="">All</option>
+                            <option value="Dog">Dog</option>
+                            <option value="Cat">Cat</option>
+                            <option value="Roommate">Roommate</option>
+                            <option value="Significant Other">Significant Other</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Coworker">Coworker</option>
+                            <option value="Stranger">Stranger</option>
+                        </select>
+                    </div>
+                    <button id="resetFilters" class="secondary-btn">Reset Filters</button>
+                </div>
+                <div class="analytics">
+                    <!-- Analytics will be filled by JavaScript -->
+                </div>
+                <div class="event-list">
+                    <!-- Event list will be filled by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>All submissions are confidential and for research purposes only.</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
